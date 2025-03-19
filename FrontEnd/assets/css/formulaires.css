@@ -1,0 +1,107 @@
+/* Général */
+.contact, .login {
+    width: 33.33%;
+    margin: auto;
+    min-width: 300px;
+}
+
+.contact {
+    margin-bottom: 45px;
+}
+
+.login {
+    margin-top: 103px;
+}
+
+.contact > *, .login > * {
+    text-align: center;
+}
+
+.contact h2 {
+    margin-bottom: 9px;
+}
+
+.login h2 {
+    margin-bottom: 7px;
+}
+
+.contact form, .login form, .modaleContainer_form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.erreur {
+    color: red;
+    margin: 19px 0;
+    text-align: center;
+} 
+
+.forgotPassword {
+    margin-top: 28px;
+    text-decoration: underline;
+}
+
+/* Input text et select du formulaire */
+input, select {
+    height: 50px;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    padding: 0 17px;
+}
+
+select {
+    cursor: pointer;
+}
+
+/* Label */
+    label {
+        font-weight: 500;
+    }
+
+    .contact label {
+        margin: 40px 0 7px 0;
+    }
+
+    .login label {
+        margin: 30px 0 7px 0;
+    }
+
+    .modale label {
+        margin: 20px 0 10px 0;
+    }
+
+/* Textarea du formulaire */
+textarea {
+    height: 170px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+    margin-bottom: 40px;
+}
+
+/* Input bouton du formulaire */
+input[type="submit"], .modaleContainer_validation button {
+    font-family: 'Syne';
+    font-weight: 700;
+    color: white;
+    background-color: #1D6154;
+    margin: 0 auto;
+    padding: 0;
+    width: 50%;
+    height: 36px;
+    text-align: center;
+    border-radius: 60px;
+    border: 0;
+    cursor: pointer;
+}
+
+.modaleContainer_validation button, .modaleContainer_validation input {
+    margin: 0;
+    width: 80%;
+}
+
+.nonValide input {
+    background-color: #A7A7A7;
+    pointer-events: none;
+}
