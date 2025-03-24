@@ -49,22 +49,28 @@
             <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
           </div>
         </section>
-        <section id="portfolio">
+        <section id="portfolio" class="portfolio">
           <div id="titreProjets">
             <h2>Mes Projets</h2>
             <span id="modifProjets" class="modifProjets inactive">
               <i class="fa-regular fa-pen-to-square"></i> <span>modifier</span>
             </span>
           </div>
-          <div class="filtre"></div>
-          <div class="gallery"></div>
+         <!-- Conteneur des filtres (notez le id unique) -->
+          <div id="login-filters">
+           <!-- Généré par JavaScript -->
+             </div>
+          <!-- Les boutons seront générés dynamiquement --></div>
+         <div id="login-gallery"></div>
         </section>
         <section id="contact" class="contact">
           <h2>Contact</h2>
           <p>Vous avez un projet ? Discutons-en !</p>
           <form action="#" method="post">
-            <label for="Name">Name:</label> <input name="Name" id="Name" type="text" autocomplete="given-name" />
-            <label for="email">Email:</label> <input name="email" id="email" type="email" autocomplete="off" />
+            <label for="Name">Nom:</label> <input name="Name" id="Name" type="text" autocomplete="name" required />
+
+            <label for="email">Email:</label> <input name="email" id="email" type="email" autocomplete="email" required />
+
             <label for="message">Message</label> <textarea name="message" id="message" cols="30" rows="10"></textarea>
             <input type="submit" value="Envoyer" />
           </form>
@@ -81,7 +87,7 @@
     <div class="modale inactive" id="modale">
       <div class="modaleContainer">
         <div class="modaleContainer_boutons">
-          <div class="modaleContainer_fermeture"><i class="fa-solid fa-xmark fa-lg"></i></div>
+          <div class="modaleContainer_fermeture" aria-label="fermer la modale"><i class="fa-solid fa-xmark fa-lg"></i></div>
           <div class="modaleContainer_retour inactive"><i class="fa-solid fa-arrow-left fa-xl"></i></div>
         </div>
         <div class="modaleContainer_titre">Galerie photo</div>

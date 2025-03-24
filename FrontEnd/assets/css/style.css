@@ -214,12 +214,12 @@ a:visited {
 }
 
 /* Boutons des filtre */
-	.filtre {
+	.filters {
 		display: flex;
 		justify-content: center;
 	}
 
-	.filtre button {
+	button {
 		font-family: 'Syne';
 		font-weight: 700;
 		font-size: 16px;
@@ -233,7 +233,7 @@ a:visited {
 		cursor: pointer;
 	}
 
-	.filtre button:hover {
+	button:hover {
 		background-color: #1D6154;
 		color: #FFFFFF;
 	}

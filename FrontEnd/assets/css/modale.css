@@ -1,142 +1,142 @@
 /* Général */
 .modale {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.30);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.30);
+}
+
+.modaleContainer {
+  background-color: #FFF;
+  border-radius: 10px;
+  height:640px;
+}
+
+/* Bouton de contrôle (fermeture et retour) */
+.modaleContainer_boutons {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin: 26px 30px 10px 30px;
+}
+
+.modaleContainer_boutons i{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* Titre */
+.modaleContainer_titre {
+  text-align: center;
+  font-family: "Work Sans";
+  font-size: 26px;
+  color: #306685;
+}
+
+/* Container principal */
+.modaleContainer_content, .modale form {
+  width: 420px;
+  margin: 0 105px;
+}	
+
+.modaleContainer_validation {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #B3B3B3;
+  padding: 38px 90px 45px;
+}
+
+/* Première page de la modale (Galerie photo) */
+  .modaleContainer_images {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      grid-column-gap: 9px;
+      grid-row-gap: 29px;
+      margin: 46px 0 38px;
   }
-  
-  .modaleContainer {
-    background-color: #FFF;
-    border-radius: 10px;
-    height:640px;
+
+  .modaleContainer_images div {
+      position: relative;
   }
-  
-  /* Bouton de contrôle (fermeture et retour) */
-  .modaleContainer_boutons {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    margin: 26px 30px 10px 30px;
+
+  .modaleContainer_images img {
+      width: 100%;
+      height: 102px;
+      object-fit: cover;
   }
-  
-  .modaleContainer_boutons i{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
+
+  .modaleContainer_images i {
+      color: white;
+      background-color: black;
+      padding: 8px 4px;
+      border-radius: 2px;
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      cursor: pointer;
   }
-  
-  /* Titre */
-  .modaleContainer_titre {
-    text-align: center;
-    font-family: "Work Sans";
-    font-size: 26px;
-    color: #306685;
+
+/* Deuxième page de la modale (Ajout photo) */
+  .modaleForm_ajoutPhoto {
+      display: flex;
+      justify-content: center;
+      background-color: #E8F1F6;
+      border-radius: 3px;
+      margin: 30px 0 10px;
+      height: 165px;
   }
-  
-  /* Container principal */
-  .modaleContainer_content, .modale form {
-    width: 420px;
-    margin: 0 105px;
-  }	
-  
-  .modaleContainer_validation {
-    display: flex;
-    justify-content: center;
-    border-top: 1px solid #B3B3B3;
-    padding: 38px 90px 45px;
+
+  .ajoutPhoto_container {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
   }
-  
-  /* Première page de la modale (Galerie photo) */
-    .modaleContainer_images {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-column-gap: 9px;
-        grid-row-gap: 29px;
-        margin: 46px 0 38px;
-    }
-  
-    .modaleContainer_images div {
-        position: relative;
-    }
-  
-    .modaleContainer_images img {
-        width: 100%;
-        height: 102px;
-        object-fit: cover;
-    }
-  
-    .modaleContainer_images i {
-        color: white;
-        background-color: black;
-        padding: 8px 4px;
-        border-radius: 2px;
-        position: absolute;
-        top: 6px;
-        right: 6px;
-        cursor: pointer;
-    }
-  
-  /* Deuxième page de la modale (Ajout photo) */
-    .modaleForm_ajoutPhoto {
-        display: flex;
-        justify-content: center;
-        background-color: #E8F1F6;
-        border-radius: 3px;
-        margin: 30px 0 10px;
-        height: 165px;
-    }
-  
-    .ajoutPhoto_container {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-    }
-  
-    .ajoutPhoto_container i {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 76px;
-        height: 76px;
-        color: #B9C5CC;
-        margin: 13px 0 6px;
-    }
-  
-    .ajoutPhoto_container label {
-        font-family: "Work Sans";
-        font-size: 14px;
-        font-weight: 500;
-        color: #306685;
-        background-color: #CBD6DC;
-        padding: 10px 33px;
-        margin: 0 0 7px;
-        border: 0;
-        border-radius: 50px;
-        cursor: pointer;
-    }
-  
-    .ajoutPhoto_container p {
-        font-size: 10px;
-        margin-bottom: 19px;
-    }
-  
-    .modaleForm_ajoutPhoto img {
-        height: 100%;
-        width: 100%;
-        object-fit: contain;
-        cursor: pointer;
-    }
-  
-    #categories {
-        margin-bottom: 47px;
-    }
+
+  .ajoutPhoto_container i {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 76px;
+      height: 76px;
+      color: #B9C5CC;
+      margin: 13px 0 6px;
+  }
+
+  .ajoutPhoto_container label {
+      font-family: "Work Sans";
+      font-size: 14px;
+      font-weight: 500;
+      color: #306685;
+      background-color: #CBD6DC;
+      padding: 10px 33px;
+      margin: 0 0 7px;
+      border: 0;
+      border-radius: 50px;
+      cursor: pointer;
+  }
+
+  .ajoutPhoto_container p {
+      font-size: 10px;
+      margin-bottom: 19px;
+  }
+
+  .modaleForm_ajoutPhoto img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      cursor: pointer;
+  }
+
+  #categories {
+      margin-bottom: 47px;
+  }
