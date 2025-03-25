@@ -73,26 +73,42 @@ async function displayWorksInModal() {
     
     setupDeleteIcons();
 }
-
-// 5. Fonctions d'interaction
 function checkAuthState() {
     const token = localStorage.getItem('authToken');
     const loginLink = document.getElementById('log_in_out');
-    if (!loginLink) return;
-    
+    const filtreDiv = document.querySelector('.filtre');
+    const bandeau = document.getElementById('bandeau');
+    const modifProjets = document.querySelector('.modifProjets');
+
     if (token) {
+        // Mode connecté
         loginLink.innerHTML = '<a href="#" id="logout">logout</a>';
         document.getElementById('logout').addEventListener('click', logout);
-        document.getElementById('bandeau')?.classList.remove('inactive');
-        document.querySelector('.modifProjets')?.classList.remove('inactive');
+        
+        // Afficher les éléments admin
+        bandeau?.classList.remove('inactive');
+        modifProjets?.classList.remove('inactive');
+        filtreDiv?.classList.add('inactive'); // Masquer les filtres
+        
+        // Ajouter classe au body pour le CSS
+        document.body.classList.add('logged-in');
     } else {
+        // Mode déconnecté
         loginLink.innerHTML = '<a href="./login.html">login</a>';
+        
+        // Cacher les éléments admin
+        bandeau?.classList.add('inactive');
+        modifProjets?.classList.add('inactive');
+        filtreDiv?.classList.remove('inactive'); // Afficher les filtres
+        
+        // Retirer classe au body
+        document.body.classList.remove('logged-in');
     }
 }
 
 function logout() {
     localStorage.removeItem('authToken');
-    window.location.reload();
+    window.location.href = './index.html'; // Redirection vers la page d'accueil
 }
 
 function setupDeleteIcons() {

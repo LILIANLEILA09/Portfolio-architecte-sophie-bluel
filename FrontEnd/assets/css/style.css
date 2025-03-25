@@ -214,12 +214,12 @@ a:visited {
 }
 
 /* Boutons des filtre */
-	.filters {
+	.filtre {
 		display: flex;
 		justify-content: center;
 	}
 
-	button {
+	.filtre button {
 		font-family: 'Syne';
 		font-weight: 700;
 		font-size: 16px;
@@ -233,7 +233,7 @@ a:visited {
 		cursor: pointer;
 	}
 
-	button:hover {
+	.filtre button:hover {
 		background-color: #1D6154;
 		color: #FFFFFF;
 	}
@@ -261,49 +261,75 @@ a:visited {
 		padding-top: 5px;
 		font-size: 13px;
 	}
-
-/* Modification après login */
-	/* Bandeau noir */
-		.bandeau {
-			display: flex;
-			background-color: black;
-			height: 59px;
-			color: white;
-			font-size: 16px;
-			font-weight: 400;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.bandeau i {
-			margin-right: 10px;
-		}
-
-	/* Bouton modifier */
-		.titreProjets {
-			position: relative;
-			left: 53px;
-			padding-bottom: 62px;
-		}
-
-		.modifProjets {
-			margin-left: 31px;
-			cursor: pointer;
-		}
-
-/* Règle CSS pour afficher ou masquer un élément */
-	.inactive {
-		display: none;
+	.inactive { display: none; }
+	.hidden { display: none; }
+	.notification {
+	  padding: 1rem;
+	  margin: 1rem;
+	  border-radius: 4px;
 	}
+	.notification.error { background: #ffebee; color: #b71c1c; }
+	.notification.info { background: #e3f2fd; color: #0d47a1; }
 
-	.margin {
-		margin: 0;
-	}
 
-	.gras {
-		font-weight: 700;
-	}
-	
-.modale.inactive {
+	/* Masquer les filtres quand non connecté */
+.filtre.inactive {
 	display: none !important;
   }
+  
+  /* Afficher uniquement quand connecté */
+  body.logged-in .filtre {
+	display: flex; /* ou grid/block selon votre layout */
+	gap: 15px;
+	justify-content: center;
+	margin: 20px 0;
+  }
+
+  .filtre {
+	opacity: 1;
+	transition: opacity 0.3s ease;
+  }
+  
+  .filtre.inactive {
+	opacity: 0;
+	pointer-events: none;
+  }
+
+  /* Masquer les filtres quand connecté */
+body.logged-in .filtre {
+    display: none !important;
+}
+
+/* Afficher le bandeau admin seulement quand connecté */
+#bandeau.inactive {
+    display: none;
+}
+
+/* Bandeau edition */
+.bandeau {
+	background: #000;
+	color: white;
+	padding: 1rem;
+	text-align: center;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+  }
+  
+  .modifProjets {
+	cursor: pointer;
+	margin-left: 30px;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+  }
+  
+  .modifProjets:hover {
+	opacity: 0.8;
+  }
+  .inactive {
+
+	display: none !important;
+	
+	}
