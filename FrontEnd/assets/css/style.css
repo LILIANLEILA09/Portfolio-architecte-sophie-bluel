@@ -317,13 +317,13 @@ body.logged-in .filtre {
 	z-index: 1000;
   }
   
-  .modifProjets {
-	cursor: pointer;
-	margin-left: 30px;
-	display: inline-flex;
-	align-items: center;
-	gap: 10px;
-  }
+	.modifProjets {
+		cursor: pointer;
+		background: none;
+		border: none;
+		padding: 0;
+	}
+ 
   
   .modifProjets:hover {
 	opacity: 0.8;
@@ -333,3 +333,38 @@ body.logged-in .filtre {
 	display: none !important;
 	
 	}
+/* Style pour le select des catégories */
+.modaleContainer_form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 50px;
+}
+
+/* Style pour le bouton Valider */
+#modaleForm_valider input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: #1D6154;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#modaleForm_valider input[type="submit"]:disabled {
+    background-color: #A7A7A7;
+    cursor: not-allowed;
+}
+
+/* Style pour la prévisualisation de l'image */
+.modaleForm_ajoutPhoto img {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    margin-bottom: 20px;
+}
+

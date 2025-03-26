@@ -166,36 +166,61 @@ async function setupFilters() {
         filterContainer.appendChild(button);
     });
 }
-
 function setupModalEvents() {
     const modale = document.getElementById('modale');
-    const openModaleBtn = document.querySelector('.modifProjets');
+    const openModaleBtn = document.querySelector('.modifProjets'); // Sélectionne le bouton modifier
     const closeModaleBtn = document.querySelector('.modaleContainer_fermeture');
-    
-    if (openModaleBtn && closeModaleBtn) {
-        openModaleBtn.addEventListener('click', () => {
+    const addPhotoBtn = document.querySelector('.modaleContainer_validation button');
+
+    // Ouvrir la modale
+    if (openModaleBtn) {
+        openModaleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
             modale.classList.remove('inactive');
+            document.body.style.overflow = 'hidden'; // Désactive le scroll
         });
-        
+    }
+
+    // Fermer la modale
+    if (closeModaleBtn) {
         closeModaleBtn.addEventListener('click', () => {
             modale.classList.add('inactive');
+            document.body.style.overflow = '';
+        });
+    }
+
+    // Bouton "Ajouter une photo"
+    if (addPhotoBtn) {
+        addPhotoBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('.modaleContainer_content').classList.add('inactive');
+            document.querySelector('.modaleContainer_form').classList.remove('inactive');
+            document.querySelector('.modaleContainer_titre').textContent = 'Ajout photo';
+        });
+    }
+
+    // Gérer le retour en arrière
+    const backBtn = document.querySelector('.modaleContainer_retour');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            document.querySelector('.modaleContainer_content').classList.remove('inactive');
+            document.querySelector('.modaleContainer_form').classList.add('inactive');
+            document.querySelector('.modaleContainer_titre').textContent = 'Galerie photo';
         });
     }
 }
 // 6. Initialisation
-document.addEventListener('DOMContentLoaded', init);
-
 //Flux principal :
 //async function init() {
-   // await fetchWorks(); // Charge les projets
-   // displayWorks(works); // Affiche la galerie
-   // setupFilters(); // Initialise les filtres
-   // checkAuthState(); // Vérifie la connexion
+    //await fetchWorks(); // Charge les projets
+  // displayWorks(works); // Affiche la galerie
+  // setupFiltre(); // Initialise les filtres
+   //checkAuthState(); // Vérifie la connexion
     
     //if (isLoggedIn()) {
-        //await displayWorksInModal(); // Affiche la modale si connecté
-        //setupModalEvents(); // Configure les événements modaux
-   // }
+        await displayWorksInModal(); // Affiche la modale si connecté
+        setupModalEvents(); // Configure les événements modaux
+    //}
 //}
 
 /************************************************
@@ -269,3 +294,306 @@ function setupLoginFilterEvents(allWorks) {
 
 // Lance l'initialisation
 document.addEventListener('DOMContentLoaded', initLoginFilters);
+
+// 1. Configuration
+const CONFIG = {
+    API_URL: window.location.hostname === 'localhost' 
+      ? "http://localhost:5678" 
+      : "https://votre-api-en-production.com",
+    CACHE_TTL: 300000 // 5 minutes en ms
+  };
+  
+  // 2. État de l'application
+  const STATE = {
+    works: [],
+    categories: [],
+    cache: {
+      lastUpdated: null
+    }
+  };
+  
+  // 3. Références DOM
+  const DOM = {
+    gallery: document.querySelector('.gallery'),
+    modal: document.getElementById('modale'),
+    filterContainer: document.querySelector('.filtre'),
+    // ... autres éléments
+  };
+  // 5. Fonctions principales
+  async function loadData() {
+    const [works, categories] = await Promise.all([
+      fetchWorks(),
+      fetchCategories()
+    ]);
+    
+    STATE.works = works;
+    STATE.categories = categories;
+    STATE.cache.lastUpdated = Date.now();
+  }
+  
+  function renderUI() {
+    renderGallery();
+    renderFilters();
+    updateAuthUI();
+  }
+  // ... autres fonctions avec les améliorations mentionnées
+  
+  // Initialisation
+  document.addEventListener('DOMContentLoaded', init);
+
+ //2 Optimisation des Event Listeners
+ // Au lieu de multiples addEventListener, utiliser la délégation d'événements
+document.querySelector('.modaleContainer_images').addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete-icon')) {
+      handleDeleteWork(e);
+    }
+  });
+  //3. Amélioration de la Modale
+  // Ajouter ces fonctions pour mieux gérer la modale
+function openModal() {
+    document.getElementById('modale').classList.remove('inactive');
+    document.body.style.overflow = 'hidden'; // Empêche le scroll
+  }
+  
+  function closeModal() {
+    document.getElementById('modale').classList.add('inactive');
+    document.body.style.overflow = '';
+  }
+  //4. Validation du Formulaire
+  // Ajouter une validation côté client avant l'envoi
+function validateForm(formData) {
+    if (!formData.get('image') || !formData.get('title') || !formData.get('category')) {
+      showError('Tous les champs sont obligatoires');
+      return false;
+    }
+    return true;
+  }
+  //5. Gestion des Erreurs Améliorée
+  // Créer un système centralisé de gestion d'erreurs
+function handleAPIError(error) {
+    console.error('API Error:', error);
+    if (error.message === 'Failed to fetch') {
+      showError('Problème de connexion au serveur');
+    } else if (error.status === 401) {
+      showError('Session expirée, veuillez vous reconnecter');
+      logout();
+    } else {
+      showError('Une erreur est survenue');
+    }
+  }
+ // 7. Internationalisation
+ // Préparer les textes pour traduction
+const I18N = {
+    fr: {
+      deleteConfirm: 'Voulez-vous vraiment supprimer ce projet ?',
+      // ... autres textes
+    },
+    en: {
+      deleteConfirm: 'Do you really want to delete this project?',
+      // ... autres textes
+    }
+  };
+  
+  //8. Cache Management
+  // Gérer le cache pour éviter des requêtes inutiles
+let cache = {
+    works: null,
+    categories: null,
+    lastUpdated: null
+  };
+  async function setupAddPhotoForm() {
+    const categoriesSelect = document.getElementById('categories');
+    if (!categoriesSelect) return;
+
+    try {
+        const categories = await fetchCategories();
+        categoriesSelect.innerHTML = categories.map(category => 
+            `<option value="${category.id}">${category.name}</option>`
+        ).join('');
+    } catch (error) {
+        console.error("Erreur de chargement des catégories:", error);
+    }
+}
+if (isLoggedIn()) {
+    await displayWorksInModal();
+    setupModalEvents();
+    await setupAddPhotoForm(); // Ajoutez cette ligne
+}
+
+function setupFormSubmission() {
+    const form = document.querySelector('.modaleContainer_form');
+    const fileInput = document.getElementById('file');
+    const titleInput = document.getElementById('titre');
+    const categorySelect = document.getElementById('categories');
+    const validationButton = document.querySelector('#modaleForm_valider input[type="submit"]');
+
+    if (!form) return;
+
+    // Prévisualisation de l'image
+    fileInput.addEventListener('change', function(e) {
+        const preview = document.querySelector('.modaleForm_ajoutPhoto img');
+        const file = e.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                preview.src = event.target.result;
+                preview.classList.remove('inactive');
+                document.querySelector('.ajoutPhoto_container').classList.add('inactive');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Validation du formulaire
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('image', fileInput.files[0]);
+        formData.append('title', titleInput.value);
+        formData.append('category', categorySelect.value);
+
+        try {
+            const response = await fetch(`${API_URL}/api/works`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                },
+                body: formData
+            });
+
+            if (!response.ok) throw new Error('Erreur lors de l\'ajout');
+
+            const newWork = await response.json();
+            works.push(newWork);
+            
+            // Mise à jour de l'affichage
+            displayWorks();
+            displayWorksInModal();
+            
+            // Réinitialisation du formulaire
+            form.reset();
+            document.querySelector('.modaleForm_ajoutPhoto img').classList.add('inactive');
+            document.querySelector('.ajoutPhoto_container').classList.remove('inactive');
+            
+            // Retour à la galerie
+            document.querySelector('.modaleContainer_content').classList.remove('inactive');
+            document.querySelector('.modaleContainer_form').classList.add('inactive');
+            document.querySelector('.modaleContainer_titre').textContent = 'Galerie photo';
+            
+        } catch (error) {
+            console.error('Erreur:', error);
+            alert('Erreur lors de l\'ajout du projet');
+        }
+    });
+
+    // Activation/Désactivation du bouton Valider
+    function checkFormValidity() {
+        const isValid = fileInput.files.length > 0 && 
+                      titleInput.value.trim() !== '' && 
+                      categorySelect.value !== '';
+        
+        validationButton.parentElement.classList.toggle('nonValide', !isValid);
+        validationButton.disabled = !isValid;
+    }
+
+    fileInput.addEventListener('change', checkFormValidity);
+    titleInput.addEventListener('input', checkFormValidity);
+    categorySelect.addEventListener('change', checkFormValidity);
+}
+if (isLoggedIn()) {
+    await displayWorksInModal();
+    setupModalEvents();
+    await setupAddPhotoForm();
+    setupFormSubmission(); // Ajoutez cette ligne
+}
+
+//Sécurité Renforcée :
+// Ajoutez un intercepteur pour vérifier les réponses API
+async function safeFetch(url, options = {}) {
+    const response = await fetch(url, options);
+    if (response.status === 401) { // Non autorisé
+        logout();
+        throw new Error('Session expirée');
+    }
+    return response;
+}
+//Gestion des Erreurs Utilisateur :
+function showFeedback(message, isError = false) {
+    const feedback = document.createElement('div');
+    feedback.className = `feedback ${isError ? 'error' : 'success'}`;
+    feedback.textContent = message;
+    document.body.appendChild(feedback);
+    
+    setTimeout(() => feedback.remove(), 3000);
+}
+//Optimisation des Performances :
+// Cachez les images déjà chargées
+const imageCache = new Map();
+
+function loadImageWithCache(url) {
+    if (imageCache.has(url)) return imageCache.get(url);
+    
+    const img = new Image();
+    img.src = url;
+    imageCache.set(url, img);
+    return img;
+}
+//Documentation :
+/**
+ * Ajoute un nouveau projet à la galerie
+ * @param {FormData} formData - Contient image, title et category
+ * @returns {Promise<Object>} Le nouveau projet créé
+ * @throws {Error} Si l'API retourne une erreur
+ */
+async function addWork(formData) {
+    // ... votre code existant
+}
+//Tests Automatisés
+// Exemple avec Jest
+describe('Gallery Functions', () => {
+    test('displayWorks renders correct items', () => {
+        document.body.innerHTML = `<div class="gallery"></div>`;
+        const mockWorks = [{id: 1, title: 'Test', imageUrl: 'test.jpg'}];
+        displayWorks(mockWorks);
+        expect(document.querySelectorAll('figure').length).toBe(1);
+    });
+});
+//Drag & Drop :
+const dropZone = document.querySelector('.ajoutPhoto_container');
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    fileInput.files = e.dataTransfer.files;
+    // Déclenche le changement comme si l'utilisateur avait sélectionné un fichier
+    fileInput.dispatchEvent(new Event('change'));
+});
+//Édition en Direct :
+// Permettre de cliquer sur un titre dans la galerie pour l'éditer
+function setupInlineEditing() {
+    document.querySelectorAll('figcaption').forEach(caption => {
+        caption.addEventListener('click', () => {
+            const newTitle = prompt('Nouveau titre :', caption.textContent);
+            if (newTitle) updateWorkTitle(caption.dataset.id, newTitle);
+        });
+    });
+}
+//Animation de Chargement :
+function toggleLoading(show) {
+    const loader = document.getElementById('loader') || createLoader();
+    loader.style.display = show ? 'block' : 'none';
+}
+
+function createLoader() {
+    const loader = document.createElement('div');
+    loader.id = 'loader';
+    loader.innerHTML = '<div class="spinner"></div>';
+    document.body.appendChild(loader);
+    return loader;
+}
+
