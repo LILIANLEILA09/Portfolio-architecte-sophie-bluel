@@ -115,32 +115,47 @@ function setupDeleteIcons() {
     document.querySelectorAll('.delete-icon').forEach(icon => {
         icon.addEventListener('click', handleDeleteWork);
     });
-}
-
-async function handleDeleteWork(e) {
+}async function handleDeleteWork(e) {
     const workId = e.target.dataset.id;
-    if (!confirm('Voulez-vous vraiment supprimer ce projet ?')) return;
-    
+    if (!workId) return;
+  
     try {
-        const response = await fetch(`${API_URL}/api/works/${workId}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-            }
-        });
-        
-        if (response.ok) {
-            works = works.filter(work => work.id != workId);
-            displayWorks();
-            displayWorksInModal();
-        } else {
-            alert('Erreur lors de la suppression');
+      // Feedback visuel immédiat
+      e.target.innerHTML = '<i class="fas fa-spinner fa-pulse"></i>';
+      e.target.style.pointerEvents = 'none';
+  
+      const response = await fetch(`${API_URL}/api/works/${workId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
         }
+      });
+  
+      if (response.status === 401) {
+        logout();
+        return;
+      }
+  
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Échec de suppression');
+      }
+  
+      // Mise à jour optimisée
+      works = works.filter(w => w.id != workId);
+      displayWorks();
+      await displayWorksInModal();
+  
     } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur de connexion au serveur');
+      console.error('Erreur suppression:', error);
+      alert(`Erreur: ${error.message}`);
+    } finally {
+      document.querySelectorAll(`.delete-icon[data-id="${workId}"]`).forEach(btn => {
+        btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+        btn.style.pointerEvents = 'auto';
+      });
     }
-}
+  }
 
 async function setupFilters() {
     const categories = await fetchCategories();
@@ -550,16 +565,7 @@ function loadImageWithCache(url) {
 async function addWork(formData) {
     // ... votre code existant
 }
-//Tests Automatisés
-// Exemple avec Jest
-describe('Gallery Functions', () => {
-    test('displayWorks renders correct items', () => {
-        document.body.innerHTML = `<div class="gallery"></div>`;
-        const mockWorks = [{id: 1, title: 'Test', imageUrl: 'test.jpg'}];
-        displayWorks(mockWorks);
-        expect(document.querySelectorAll('figure').length).toBe(1);
-    });
-});
+
 //Drag & Drop :
 const dropZone = document.querySelector('.ajoutPhoto_container');
 dropZone.addEventListener('dragover', (e) => {
@@ -596,4 +602,48 @@ function createLoader() {
     document.body.appendChild(loader);
     return loader;
 }
+console.log(localStorage.getItem("authToken"));
 
+// Testez dès demain dans la console
+console.log("Flèche existe:", !!document.querySelector('.modaleContainer_retour'));
+console.log("Classe 'inactive':", document.querySelector('.modaleContainer_retour').classList.contains('inactive'));
+
+
+// Dans setupModalEvents()
+const backBtn = document.querySelector('.modaleContainer_retour');
+if (backBtn) {
+  backBtn.addEventListener('click', () => {
+    document.querySelector('.modaleContainer_content').classList.remove('inactive');
+    document.querySelector('.modaleContainer_form').classList.add('inactive');
+    document.querySelector('.modaleContainer_titre').textContent = 'Galerie photo';
+    backBtn.classList.add('inactive');
+  });
+}
+// À tester en premier
+console.log("Position de la flèche:", 
+    document.querySelector('.modaleContainer_retour')?.getBoundingClientRect());
+console.log("Z-Index:", 
+    window.getComputedStyle(document.querySelector('.modaleContainer_retour')).zIndex);
+
+ // Version super-robuste
+function setupBackButton() {
+    const backBtn = document.querySelector('.modaleContainer_retour');
+    if (!backBtn) return;
+    
+    backBtn.addEventListener('click', () => {
+        // 1. Masquer le formulaire
+        document.querySelector('.modaleContainer_form').classList.add('inactive');
+        
+        // 2. Réafficher la galerie
+        const content = document.querySelector('.modaleContainer_content');
+        content.classList.remove('inactive');
+        
+        // 3. Reset du titre
+        document.querySelector('.modaleContainer_titre').textContent = 'Galerie photo';
+        
+        // 4. Animation fluide
+        setTimeout(() => backBtn.classList.add('inactive'), 300);
+    });
+}   
+console.log("État initial:", document.querySelector('.modaleContainer_retour').classList);
+document.querySelector('.modaleContainer_retour').classList.remove('inactive');

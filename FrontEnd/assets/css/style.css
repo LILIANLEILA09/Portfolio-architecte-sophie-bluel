@@ -261,6 +261,10 @@ a:visited {
 		padding-top: 5px;
 		font-size: 13px;
 	}
+
+
+
+
 	.inactive { display: none; }
 	.hidden { display: none; }
 	.notification {
@@ -296,17 +300,17 @@ a:visited {
   }
 
   /* Masquer les filtres quand connecté */
-body.logged-in .filtre {
+ body.logged-in .filtre {
     display: none !important;
 }
 
 /* Afficher le bandeau admin seulement quand connecté */
-#bandeau.inactive {
+  #bandeau.inactive {
     display: none;
 }
 
 /* Bandeau edition */
-.bandeau {
+  .bandeau {
 	background: #000;
 	color: white;
 	padding: 1rem;
@@ -334,7 +338,7 @@ body.logged-in .filtre {
 	
 	}
 /* Style pour le select des catégories */
-.modaleContainer_form select {
+  .modaleContainer_form select {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -344,7 +348,7 @@ body.logged-in .filtre {
 }
 
 /* Style pour le bouton Valider */
-#modaleForm_valider input[type="submit"] {
+  #modaleForm_valider input[type="submit"] {
     width: 100%;
     padding: 15px;
     background-color: #1D6154;
@@ -361,10 +365,177 @@ body.logged-in .filtre {
 }
 
 /* Style pour la prévisualisation de l'image */
-.modaleForm_ajoutPhoto img {
+  .modaleForm_ajoutPhoto img {
     max-width: 100%;
     max-height: 200px;
     object-fit: contain;
     margin-bottom: 20px;
 }
 
+/* Style de base du bouton */
+.modifProjets {
+    /*Layout */
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    
+    /* Style */
+   background: none;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    
+    /* Texte */
+   color: #1D6154;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    
+    /* Interaction */
+     cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 20px;
+}
+
+/* Style au survol */
+  .modifProjets:hover {
+    background-color: rgba(29, 97, 84, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Style actif (clic) */
+  .modifProjets:active {
+    transform: translateY(0);
+}
+
+/* Style pour l'icône */
+.modifProjets i {
+    font-size: 16px;
+}
+
+/* Version mobile */
+@media (max-width: 768px) {
+    .modifProjets {
+        padding: 6px 12px;
+        font-size: 12px;
+        margin-left: 10px;
+    }
+    
+    .modifProjets i {
+        font-size: 14px;
+    }
+}
+
+/* Style quand la modale est ouverte */
+.modal-open .modifProjets {
+    background-color: #1D6154;
+    color: white;
+}
+
+/* Style quand l'utilisateur est en mode édition */
+  body.logged-in .modifProjets {
+    display: flex; /* S'assure qu'il est visible */
+  }
+
+.modaleContainer_validation button, .modaleContainer_validation input {
+	margin: 0;
+	width: 80%;
+  }
+  
+  .nonValide input {
+	background-color: #A7A7A7;
+	pointer-events: none;
+  }
+
+  /* Style de base (couleur gris) */
+   #modaleForm_valider input[type="submit"] {
+    background-color: #A7A7A7 !important; /* Gris par défaut */
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 50px;
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: not-allowed; /* Curseur "non-autorisé" quand inactif */
+    transition: all 0.3s ease;
+    width: 100%;
+   }
+
+/* Quand le formulaire est valide */
+#modaleForm_valider input[type="submit"]:enabled {
+    background-color: #1D6154 !important; /* Vert quand actif */
+    cursor: pointer;
+}
+
+/* Effet pendant le clic */
+#modaleForm_valender input[type="submit"]:active {
+    background-color: #0E4A3D !important; /* Vert foncé pendant le clic */
+    transform: scale(0.98);
+}
+
+/* Animation de chargement après clic */
+#modaleForm_valider.loading input[type="submit"] {
+    position: relative;
+    color: transparent;
+}
+
+#modaleForm_valider.loading input[type="submit"]::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    left: calc(50% - 10px);
+    top: calc(50% - 10px);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* CSS pour la flèche */
+.modaleContainer_retour {
+	transition: opacity 0.3s ease;
+  }
+  .modaleContainer_retour.inactive {
+	opacity: 0;
+	pointer-events: none;
+  }
+
+  /* Garantie que la flèche sera visible */
+  .modaleContainer_retour:not(.inactive) {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+    pointer-events: all !important;
+}
+
+/* styles.css */
+  .modaleContainer_retour {
+	position: absolute;
+	top: 24px;
+	left: 24px;
+	width: 36px;
+	height: 36px;
+	background: rgba(29, 97, 84, 0.1);
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	z-index: 10;
+	transition: all 0.3s ease;
+	opacity: 1;
+  }
+  
+  .modaleContainer_retour.inactive {
+	opacity: 0;
+	pointer-events: none;
+  }
+  
+  .modaleContainer_retour:hover {
+	background: rgba(29, 97, 84, 0.2);
+  }

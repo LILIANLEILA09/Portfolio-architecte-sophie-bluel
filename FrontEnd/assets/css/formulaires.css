@@ -96,12 +96,3 @@ input[type="submit"], .modaleContainer_validation button {
     cursor: pointer;
 }
 
-.modaleContainer_validation button, .modaleContainer_validation input {
-    margin: 0;
-    width: 80%;
-}
-
-.nonValide input {
-    background-color: #A7A7A7;
-    pointer-events: none;
-}
