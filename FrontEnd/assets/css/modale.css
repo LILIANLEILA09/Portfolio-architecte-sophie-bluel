@@ -14,9 +14,7 @@
 .modaleContainer {
   background-color: #FFF;
   border-radius: 10px;
-  width:640px;
-  height:100%;
-  margin-bottom:40px;
+  height:640px;
 }
 
 /* Bouton de contrôle (fermeture et retour) */
@@ -41,6 +39,7 @@
   text-align: center;
   font-family: "Work Sans";
   font-size: 26px;
+  color:#306685;
 }
 
 /* Container principal */
@@ -53,9 +52,7 @@
   display: flex;
   justify-content: center;
   border-top: 1px solid #B3B3B3;
-  padding: 38px 100px 150px;
-   padding-top:20px;
-  margin:10px;
+  padding: 38px 90px 45px;
 }
 
 /* Première page de la modale (Galerie photo) */

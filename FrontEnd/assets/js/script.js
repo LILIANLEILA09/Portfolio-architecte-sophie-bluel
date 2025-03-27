@@ -647,3 +647,34 @@ function setupBackButton() {
 }   
 console.log("État initial:", document.querySelector('.modaleContainer_retour').classList);
 document.querySelector('.modaleContainer_retour').classList.remove('inactive');
+
+// Quand on clique sur "Ajouter une photo"
+document.querySelector(".modaleContainer_validation button").addEventListener("click", function() {
+  document.querySelector(".modaleContainer_retour").classList.remove("inactive");
+  document.querySelector(".modaleContainer_content").classList.add("inactive");
+  document.querySelector(".modaleContainer_form").classList.remove("inactive");
+});
+
+// Quand on clique sur la flèche pour revenir
+document.querySelector(".modaleContainer_retour").addEventListener("click", function() {
+  document.querySelector(".modaleContainer_retour").classList.add("inactive");
+  document.querySelector(".modaleContainer_content").classList.remove("inactive");
+  document.querySelector(".modaleContainer_form").classList.add("inactive");
+});
+
+// Désactive 'required' quand le champ est invisible
+const fileInput = document.getElementById('file');
+if (fileInput.classList.contains('inactive')) {
+  fileInput.removeAttribute('required');
+} else {
+  fileInput.setAttribute('required', '');
+}
+
+fileInput.addEventListener('change', function(e) {
+  if (e.target.files.length > 0) {
+    preview.classList.remove('hidden');
+    preview.src = URL.createObjectURL(e.target.files[0]);
+  } else {
+    preview.classList.add('hidden');
+  }
+});
