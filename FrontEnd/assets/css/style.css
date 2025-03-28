@@ -268,6 +268,7 @@ a:visited {
 			display: flex;
 			background-color: black;
 			height: 59px;
+			width: 1440px;
 			color: white;
 			font-size: 16px;
 			font-weight: 400;
@@ -331,22 +332,3 @@ a:visited {
 	  #openModalButton i {
 		font-size: 16px; /* Taille de l'icône */
 	  }
-
-#openModalButton:hover {
-  color: #8EC9B6; /* Vert clair pour le hover */
-  transition: color 0.2s ease;
-}
-
-/* Option: Si tu veux aussi un fond au hover */
-#openModalButton:hover {
-  background: rgba(142, 201, 182, 0.1); /* Très léger */
-  border-radius: 4px;
-  padding: 2px 5px; /* Espacement si fond activé */
-}
-
-button {
-	background: none;
-	border: none;
-	cursor: pointer;
-  }
-
