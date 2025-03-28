@@ -678,3 +678,4 @@ fileInput.addEventListener('change', function(e) {
     preview.classList.add('hidden');
   }
 });
+

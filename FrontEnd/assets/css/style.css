@@ -311,3 +311,42 @@ a:visited {
 		height: 0;
 		overflow: hidden;
 	  }
+
+	  #openModalButton {
+		/* Suppression de la bordure et style de base */
+		border: none !important;
+		background: none !important;
+		padding: 0;
+		cursor: pointer;
+		
+		/* Style du texte/icône */
+		font-family: 'Work Sans', sans-serif;
+		font-size: 14px;
+		color: #1D6154; /* Couleur verte du thème */
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	  }
+	  
+	  #openModalButton i {
+		font-size: 16px; /* Taille de l'icône */
+	  }
+
+#openModalButton:hover {
+  color: #8EC9B6; /* Vert clair pour le hover */
+  transition: color 0.2s ease;
+}
+
+/* Option: Si tu veux aussi un fond au hover */
+#openModalButton:hover {
+  background: rgba(142, 201, 182, 0.1); /* Très léger */
+  border-radius: 4px;
+  padding: 2px 5px; /* Espacement si fond activé */
+}
+
+button {
+	background: none;
+	border: none;
+	cursor: pointer;
+  }
+
