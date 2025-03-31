@@ -1,4 +1,3 @@
-
 // 1. Déclarations globales
 let works = [];
 const API_URL = "http://localhost:5678";
@@ -99,7 +98,6 @@ function checkAuthState() {
     modifProjets?.classList.remove("inactive");
     filtreDiv?.classList.add("inactive"); // Masquer les filtres
 
-    // Ajouter classe au body pour le CSS
     document.body.classList.add("logged-in");
   } else {
     // Mode déconnecté
@@ -652,61 +650,4 @@ document.querySelector(".modaleContainer_retour").addEventListener("click", func
   document.querySelector(".modaleContainer_retour").classList.add("inactive");
   document.querySelector(".modaleContainer_content").classList.remove("inactive");
   document.querySelector(".modaleContainer_form").classList.add("inactive");
-});
-
-// Désactive 'required' quand le champ est invisible
-const fileInput = document.getElementById("file");
-if (fileInput.classList.contains("inactive")) {
-  fileInput.removeAttribute("required");
-} else {
-  fileInput.setAttribute("required", "");
-}
-fileInput.addEventListener("change", function(e) {
-  if (e.target.files.length > 0) {
-    preview.classList.remove("hidden");
-    preview.src = URL.createObjectURL(e.target.files[0]);
-  } else {
-    preview.classList.add("hidden");
-  }
-});
-
-//script mise à jour
-document.addEventListener("DOMContentLoaded", function() {
-  const form = document.getElementById("monFormulaire");
-  const btnValider = document.getElementById("btnValider");
-  const requiredFields = form.querySelectorAll("[required]");
-
-  function checkForm() {
-    let allValid = true;
-
-    requiredFields.forEach(field => {
-      if (!field.value.trim()) {
-        allValid = false;
-      }
-    });
-
-    btnValider.disabled = !allValid;
-  }
-  // Écouteurs d'événements
-  requiredFields.forEach(field => {
-    field.addEventListener("input", checkForm);
-    field.addEventListener("change", checkForm);
-  });
-
-  // Initialisation
-  checkForm();
-
-  // Soumission
-  form.addEventListener("submit", function(e) {
-    e.preventDefault();
-    alert("Formulaire validé avec succès !");
-    // Ajoutez ici votre logique de soumission
-    document.querySelectorAll("#monFormulaire [required]").forEach(field => {
-      field.addEventListener("input", checkForm);
-    });
-    function checkForm() {
-      const btn = document.getElementById("btnValider");
-      btn.disabled = !Array.from(document.querySelectorAll("[required]")).every(input => input.value.trim() !== "");
-    }
-  });
 });

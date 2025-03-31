@@ -97,3 +97,30 @@ input[type="submit"], .modaleContainer_validation button {
     cursor: pointer;
 }
 
+/* assets/css/style.css */
+.error {
+    border: 2px solid #ff3860;
+  }
+  
+  [aria-invalid="true"] {
+    outline: 2px solid #ff3860;
+  }
+  
+  .btn-valider:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .error {
+    border: 2px solid #ff3860;
+    outline: 2px solid rgba(255, 56, 96, 0.2);
+  }
+  
+  [aria-invalid="true"] {
+    border-color: #ff3860;
+  }
+  
+  button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
